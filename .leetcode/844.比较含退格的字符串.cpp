@@ -2,10 +2,12 @@
  * @lc app=leetcode.cn id=844 lang=cpp
  *
  * [844] 比较含退格的字符串
+ * 一刷:2024-9-19：用快慢指针没写出来，这题用栈来写很简单，但是用快慢指针感觉还是有点难的
  */
 
 #include <string>
 #include <iostream>
+#include <stack>
 using namespace std;
 
 // @lc code=start
@@ -14,46 +16,34 @@ class Solution
 public:
     bool backspaceCompare(string s, string t)
     {
-        int t1 = this->getResult(s);
-        int t2 = this->getResult(t);
-        std::cout << std::endl;
-        std::cout << s << std::endl;
-        std::cout << t << std::endl;
+        std::stack<char> stackS, stackT;
+        for (auto c : s)
+        {
+            if (c == '#' && !stackS.empty())
+                stackS.pop();
+            else if(c != '#')
+                stackS.push(c);
+        }
 
-        if (s.size() - t1 != t.size() - t2)
+        for (auto c : t)
+        {
+            if (c == '#' && !stackT.empty())
+                stackT.pop();
+            else if(c != '#')
+                stackT.push(c);
+        }
+
+        if (stackS.size() != stackT.size())
             return false;
 
-        for (int i = 0; i < s.size() - t1; i++)
+        while (!stackS.empty())
         {
-            if (s[i] != t[i])
+            if (stackS.top() != stackT.top())
                 return false;
+            stackS.pop();
+            stackT.pop();
         }
         return true;
-    }
-
-private:
-    int getResult(string &str)
-    {
-        int times = 0;
-        int slowIdx = 0;
-        for (int fastIdx = 1; fastIdx < str.size(); fastIdx++)
-        {
-            if (str[fastIdx] != '#')
-            {
-                ++slowIdx;
-                if (str[fastIdx != '#'])
-                    str[slowIdx] = str[fastIdx];
-            }
-            else
-            {
-                if (slowIdx >= 0)
-                {
-                    --slowIdx;
-                    ++times;
-                }
-            }
-        }
-        return times;
     }
 };
 // @lc code=end
@@ -61,8 +51,8 @@ private:
 int main()
 {
     Solution s;
-    string s1 = "ab##";
-    string s2 = "c#d#";
+    string s1 = "y#fo##f";
+    string s2 = "y#f#o##f";
     bool res = s.backspaceCompare(s1, s2);
 
     return 0;
