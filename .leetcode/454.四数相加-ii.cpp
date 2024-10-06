@@ -14,7 +14,7 @@ class Solution
 {
 public:
     int fourSumCount(vector<int> &nums1, vector<int> &nums2,
-                     vector<int> &nums3, vector<int> &nums4)
+                     vector<int> &nums3, vector<int> &nums4) 
     {
         unordered_map<int, int> ab_map; // sum,次数
         unordered_map<int, int> cd_map; // sum,次数
@@ -26,7 +26,7 @@ public:
                 int sum = 0;
                 sum = nums1[i] + nums2[j];
                 ab_map[sum]++;
-            }
+            }  
         }
 
         for (int i = 0; i < nums3.size(); ++i)
