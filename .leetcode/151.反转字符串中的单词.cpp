@@ -4,6 +4,7 @@
  * [151] 反转字符串中的单词
  * 一刷:2024-10-7,这题如果不考虑空间复杂度还是很简单的,但是如果要O(1),还是有点难的对我来说.
  *  思路:先去掉所有空格,再去反转整个str,再反转每个单词
+ * 二刷:2024-10-11,忘记怎么移除空格了
  */
 
 #include <string>
@@ -18,21 +19,20 @@ public:
         int slow_idx = 0;
         int fast_idx = 0;
 
-        // 去除头部空格
-        while (s[fast_idx] == ' ' && fast_idx < s.size())
+        // 移除头部空格
+        while (fast_idx < s.size() && s[fast_idx] == ' ')
             ++fast_idx;
 
-        // 去除中间的多余空格
+        // 移除中间的空格
         for (; fast_idx < s.size(); ++fast_idx)
         {
-            if (s[fast_idx] == ' ' && s[fast_idx - 1] == s[fast_idx] && fast_idx > 1)
+            if (fast_idx > 0 && s[fast_idx - 1] == s[fast_idx] && s[fast_idx] == ' ')
                 continue;
-            else
-                s[slow_idx++] = s[fast_idx];
+            s[slow_idx++] = s[fast_idx];
         }
 
-        // 去除末尾空格
-        if (s[slow_idx - 1] == ' ' && slow_idx > 1)
+        // 移除末尾空格
+        if (s[fast_idx - 1] == ' ')
             s.resize(slow_idx - 1);
         else
             s.resize(slow_idx);
@@ -61,21 +61,25 @@ public:
     {
         this->removeEmpty(s);
         this->swapStr(s, 0, s.size() - 1);
-
         int left = 0;
         int right = 0;
-
-        while (right <= s.size())
+        while (left < s.size())
         {
-            if (s[right] == ' ' || right == s.size())
+            for (right = left; right < s.size(); ++right)
             {
-                this->swapStr(s, left, right - 1);
-                left = right+1;
+                if (s[right] == ' ')
+                {
+                    this->swapStr(s, left, right - 1);
+                    left = right + 1;
+                }
+                    
+                else if(right == s.size() - 1)
+                {
+                    this->swapStr(s, left, right);
+                    left = right + 1;
+                }  
             }
-            
-            ++right;
         }
-
         return s;
     }
 };
