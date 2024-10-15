@@ -3,6 +3,7 @@
  *
  * [142] 环形链表 II
  * 一刷:2024-9-26:看了题解才写出来的.先求相遇点,然后再求相交点就是环节点
+ * 二刷:2024-10-13:写出来了,不过是背的
  */
 
 struct ListNode
@@ -11,7 +12,6 @@ struct ListNode
     ListNode *next;
     ListNode(int x) : val(x), next(nullptr) {}
 };
-
 
 // @lc code=start
 /**
@@ -22,34 +22,34 @@ struct ListNode
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    ListNode *detectCycle(ListNode *head) {
-        auto fast = head;
-        auto slow = head;
-
-        if(!head)
+    ListNode *detectCycle(ListNode *head)
+    {
+        if (head == nullptr)
             return nullptr;
 
-        while(fast!=nullptr&&fast->next!=nullptr)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
+        ListNode *left = head;
+        ListNode *right = head;
 
-            if(fast == slow)
-            {
-                auto index1 = head;
-                auto index2 = fast;
-                while(index1 != index2)
-                {       
-                    index1 = index1->next;
-                    index2 = index2->next;
+        while (right->next != nullptr && right->next->next != nullptr)
+        {
+            left = left->next;
+            right = right->next->next;
+
+            if(left == right){
+                left = head;
+                while(left!=right)
+                {
+                    left=left->next;
+                    right = right->next;
                 }
-                return index1;
+                return left;
             }
         }
+
         return nullptr;
     }
 };
 // @lc code=end
-
