@@ -69,16 +69,16 @@ public:
         traverse(root, p->val, path_p, res_path_p);
         traverse(root, q->val, path_q, res_path_q);
 
-        std::cout << "-----------------" << std::endl;
-        for (auto i : res_path_p)
-        {
-            std::cout << i->val << std::endl;
-        }
-        std::cout << "-----------------" << std::endl;
-        for (auto i : res_path_q)
-        {
-            std::cout << i->val << std::endl;
-        }
+        // std::cout << "-----------------" << std::endl;
+        // for (auto i : res_path_p)
+        // {
+        //     std::cout << i->val << std::endl;
+        // }
+        // std::cout << "-----------------" << std::endl;
+        // for (auto i : res_path_q)
+        // {
+        //     std::cout << i->val << std::endl;
+        // }
 
         // std::cout << "-----------------" << std::endl;
         // for (int i = res_path_p.size(); i > 0; --i)
