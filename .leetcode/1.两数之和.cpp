@@ -3,6 +3,7 @@
  *
  * [1] 两数之和
  * 一刷:2024-10-2
+ * 二刷:2025-4-14
  */
 
 #include <vector>
@@ -15,21 +16,22 @@ class Solution
 public:
     vector<int> twoSum(vector<int> &nums, int target)
     {
-        unordered_map<int,int> hash_map; //num,index
-        vector<int> res;
-        for(int i=0;i<nums.size();++i){
-            int key = target - nums[i];
-            auto it = hash_map.find(key);
-            if(it != hash_map.end())
-            {
-                res.push_back(i);
-                res.push_back(it->second);
-                return res;
-            }
+        vector<int> result;
+        unordered_map<int, int> map;
+        for (int i = 0; i < nums.size(); ++i)
+            map.insert({nums[i], i});
 
-            hash_map[nums[i]] = i;
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            auto it = map.find(target - nums[i]);
+            if (it != map.end() && i != (*it).second)
+            {
+                result.push_back(i);
+                result.push_back((*it).second);
+                break;
+            }
         }
-        return res;
+        return result;
     }
 };
 // @lc code=end

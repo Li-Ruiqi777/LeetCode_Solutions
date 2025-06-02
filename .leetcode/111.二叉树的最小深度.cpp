@@ -4,7 +4,6 @@
  * [111] 二叉树的最小深度
  * 一刷:2024-10-26
  */
-
 #include <vector>
 #include <queue>
 #include <cassert>
