@@ -11,33 +11,29 @@ using namespace std;
 class Solution
 {
 public:
-    static bool cmp(const vector<int> &left, const vector<int> &right)
-    {
-        if (left[0] == right[0])
-            return left[1] < right[1];
-        return left[0] < right[0];
-    }
-
     vector<vector<int>> merge(vector<vector<int>> &intervals)
     {
-        std::sort(intervals.begin(), intervals.end(), Solution::cmp);
-        vector<vector<int>> res;
-
-        res.push_back(intervals[0]);
-        
+        vector<vector<int>> result;
+        if (intervals.empty())
+            return result;
+  
+        std::sort(intervals.begin(),intervals.end());
+        result.push_back(intervals[0]);
         for (int i = 1; i < intervals.size(); ++i)
         {
-            if (res.back()[1] >= intervals[i][0])
+            auto& current_interval = result.back();
+        
+            if (current_interval[1] < intervals[i][0])
             {
-                res.back()[1] = max(res.back()[1], intervals[i][1]);
+                result.push_back(intervals[i]);   
             }
             else
             {
-                res.push_back(intervals[i]);
+                current_interval[1] = max(current_interval[1], intervals[i][1]);
             }
-
+                
         }
-        return res;
+        return result;
     }
 };
 // @lc code=end
