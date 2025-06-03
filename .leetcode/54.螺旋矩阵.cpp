@@ -17,32 +17,43 @@ class Solution
 public:
     vector<int> spiralOrder(vector<vector<int>> &matrix)
     {
-        vector<int> res;
-        int u = 0;
-        int b = matrix.size() - 1;
-        int l = 0;
-        int r = matrix[0].size() - 1;
-
-        while (1)
+        int top_row = 0;
+        int bottom_row = matrix.size() - 1;
+        int left_col = 0;
+        int right_col = matrix[0].size() - 1;
+        vector<int> result;
+        while (top_row <= bottom_row && left_col <= right_col)
         {
-            for (int i = l; i <= r; ++i)
-                res.push_back(matrix[u][i]);
-            if (++u > b)
-                break;
-            for (int i = u; i <= b; ++i)
-                res.push_back(matrix[i][r]);
-            if (--r < l)
-                break;
-            for (int i = r; i >= l; --i)
-                res.push_back(matrix[b][i]);
-            if (--b < u)
-                break;
-            for (int i = b; i >= u; --i)
-                res.push_back(matrix[i][l]);
-            if (++l > r)
-                break;
+            for (int i = left_col; i <= right_col; ++i)
+            {
+                result.push_back(matrix[top_row][i]);
+            }
+            ++top_row;
+            for (int i = top_row; i <= bottom_row; ++i)
+            {
+                result.push_back(matrix[i][right_col]);
+            }
+            --right_col;
+            
+            if (top_row <= bottom_row)
+            {
+                for (int i = right_col; i >= left_col; --i)
+                {
+                    result.push_back(matrix[bottom_row][i]);
+                }
+                --bottom_row;
+            }
+
+            if (left_col <= right_col)
+            {
+                for (int i = bottom_row; i >= top_row; --i)
+                {
+                    result.push_back(matrix[i][left_col]);
+                }
+                ++left_col;
+            }
         }
-        return res;
+        return result;
     }
 };
 // @lc code=end
