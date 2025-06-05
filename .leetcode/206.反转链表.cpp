@@ -35,22 +35,23 @@ class Solution
 public:
     ListNode *reverseList(ListNode *head)
     {
-        if (head == nullptr)
+        if(head == nullptr)
             return nullptr;
-
-        ListNode *left = nullptr;
-        ListNode *right = head;
-
-        while (right != nullptr)
+        auto cur = head;
+        auto next = cur->next;
+        while(next != nullptr)
         {
-            ListNode *temp = right->next;
-            right->next = left;
+            auto temp = next->next; //保存下一个节点
 
-            left = right;
-            right = temp;
+            next->next = cur;//反转指针
+            if(cur == head)
+                cur->next = nullptr;
+            cur = next;
+
+            next = temp;
+
         }
-
-        return left;
+        return cur;
     }
 };
 // @lc code=end

@@ -27,32 +27,49 @@ class Solution
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB)
     {
+        ListNode* result = nullptr;
+        int lenA = 0;
+        int lenB = 0;
         auto cur = headA;
-        std::unordered_map<ListNode *, int> hashmapA;
-        int idx = 0;
         while (cur != nullptr)
         {
-            hashmapA.insert({cur, idx});
+            ++lenA;
             cur = cur->next;
-            ++idx;
+        }
+        cur = headB;
+        while (cur != nullptr)
+        {
+            ++lenB;
+            cur = cur->next;
         }
 
-        cur = headB;
-        idx = 0;
-        while (cur != nullptr)
+        if (lenA > lenB)
         {
-            auto it = hashmapA.find(cur);
-            if (it == hashmapA.end())
-            {
-                cur = cur->next;
-                ++idx;
-            }
-            else{
-                return cur;
-            }
-            
+            int slow = lenA - lenB;
+            for (int i = 0; i < slow; ++i)
+                headA = headA->next;
         }
-        return nullptr;
+
+        else
+        {
+            int slow = lenB - lenA;
+            for (int i = 0; i < slow; ++i)
+                headB = headB->next;
+        }
+
+
+        while(headA!=nullptr && headB!=nullptr)
+        {
+            if(headA == headB)
+            {
+                result = headA;
+                break;
+            }
+            headA = headA->next;
+            headB = headB->next;
+                
+        }
+        return result;
     }
 };
 // @lc code=end
