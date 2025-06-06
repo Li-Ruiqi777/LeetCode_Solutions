@@ -27,28 +27,26 @@ class Solution
 public:
     ListNode *detectCycle(ListNode *head)
     {
-        if (head == nullptr)
+        if (!(head && head->next))
             return nullptr;
+        ListNode *slow = head;
+        ListNode *fast = head;
 
-        ListNode *left = head;
-        ListNode *right = head;
-
-        while (right->next != nullptr && right->next->next != nullptr)
+        while (fast && fast->next)
         {
-            left = left->next;
-            right = right->next->next;
-
-            if(left == right){
-                left = head;
-                while(left!=right)
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast)
+            {
+                slow = head;
+                while (slow != fast)
                 {
-                    left=left->next;
-                    right = right->next;
+                    slow = slow->next;
+                    fast = fast->next;
                 }
-                return left;
+                return slow;
             }
         }
-
         return nullptr;
     }
 };
