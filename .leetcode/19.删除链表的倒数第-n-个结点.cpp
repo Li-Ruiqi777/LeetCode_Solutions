@@ -34,30 +34,24 @@ class Solution
 public:
     ListNode *removeNthFromEnd(ListNode *head, int n)
     {
-        if (head == nullptr)
+        if(!head->next)
             return nullptr;
-        if (head->next == nullptr && n == 1)
-            return nullptr;
-        auto dummyHead = new ListNode(0, head);
-
-        int size = 0;
-        auto cur = head;
-        while (cur)
+        ListNode dummy(0);
+        dummy.next = head;
+        ListNode* slow = &dummy;
+        ListNode* fast = &dummy;
+        for(int i=0;i<n;++i)
         {
-            ++size;
-            cur = cur->next;
+            fast = fast->next;
         }
-
-        int begin_n = size - n;
-
-        cur = dummyHead;
-        while (begin_n--)
+        while(fast->next)
         {
-            cur = cur->next;
+            fast = fast->next;
+            slow = slow->next;
         }
-        cur->next = cur->next->next;
+        slow->next = slow->next->next;
 
-        return dummyHead->next;
+        return dummy.next;
     }
 };
 // @lc code=end
