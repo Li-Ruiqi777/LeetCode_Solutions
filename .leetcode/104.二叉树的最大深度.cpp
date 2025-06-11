@@ -36,28 +36,27 @@ class Solution
 public:
     int maxDepth(TreeNode *root)
     {
-        std::vector<std::vector<int>> result;
-        if (root == nullptr)
-            return 0;
-        std::queue<TreeNode *> que;
+        int num = 0;
+        if(!root)
+            return num;
+        queue<TreeNode*> que;
         que.push(root);
-        while (!que.empty())
+
+        while(!que.empty())
         {
-            int sz = que.size();
-            std::vector<int> temp;
-            for (int i = 0; i < sz; ++i)
+            int size = que.size();
+            for(int i=0;i<size;++i)
             {
-                TreeNode *node = que.front();
+                auto node = que.front();
                 que.pop();
-                temp.push_back(node->val);
-                if (node->left)
+                if(node->left)
                     que.push(node->left);
-                if (node->right)
+                if(node->right)
                     que.push(node->right);
             }
-            result.push_back(temp);
+            num++;
         }
-        return result.size();
+        return num;
     }
 };
 // @lc code=end

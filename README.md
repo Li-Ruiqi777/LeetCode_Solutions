@@ -135,7 +135,81 @@
 
 
 
-## STL注意事项
+## 二叉树
+
+> 25-6-10：hot100二叉树版块
+
+- 94.二叉树的中序遍历
+- 104.二叉树的最大深度：用层序遍历直接秒了
+- 226.翻转二叉树：前序遍历直接秒了
+
+> 25-6-11：继续hot100二叉树版块
+
+- 101.对称二叉树：
+  - nt方法：用层序遍历求出每一层的所有node，再判断是否对称
+  - 最优方法：使用递归法，同时遍历2个树，再判断左右子树的根节点、左右节点是否对称
+
+### 总结
+
+- 参考[链接](https://www.programmercarl.com/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html)：看一下基本概念以及二叉树会有==哪些题型==
+
+1.二叉树分类和定义：满二叉树，完全二叉树，二叉搜索树，平衡二叉搜索树
+
+2.二叉树的遍历方式可以分为深度优先和广度优先2种：
+
+- 深度优先：前/中/后序遍历
+  - 使用**递归法**来实现：递归法一定要包含3要素：
+    - 确定递归入口函数的返回值和形参
+    - 确定终止条件
+    - 确定单层逻辑
+
+```cpp
+// 递归入口函数(二叉树的递归遍历的入口函数结构都类似)
+void traversal(TreeNode* cur, vector<int>& vec) {
+    if (cur == NULL) return;
+    vec.push_back(cur->val);    // 中
+    traversal(cur->left, vec);  // 左
+    traversal(cur->right, vec); // 右
+}
+// 前序遍历
+vector<int> preorderTraversal(TreeNode* root) {
+    vector<int> result;
+    traversal(root, result);
+    return result;
+}
+```
+
+- 广度优先：层序遍历
+  - 需要使用**队列**来依次存储各层的node
+
+```cpp
+vector<vector<int>> levelOrder(TreeNode* root) {
+    queue<TreeNode*> que;
+    if (root != NULL) 
+        que.push(root);
+    vector<vector<int>> result;
+    while (!que.empty()) {
+        int size = que.size();
+        vector<int> vec;
+        // 这里一定要使用固定大小size，不要使用que.size()，因为que.size是不断变化的
+        for (int i = 0; i < size; i++) {
+            TreeNode* node = que.front();
+            que.pop();
+            vec.push_back(node->val);
+            if (node->left) 
+                que.push(node->left);
+            if (node->right) 
+                que.push(node->right);
+        }
+        result.push_back(vec);
+    }
+    return result;
+}
+```
+
+
+
+## STL
 
 1.`begin`/`end` 和 `front`/`back` 的区别
 
@@ -161,3 +235,9 @@
 
 - `front()`：返回第一个元素的**引用**
 - `back()`：返回最后一个元素的**引用**
+
+
+
+2.各容器的底层原理
+
+- map、set、multimap，multiset：平衡二叉搜索树

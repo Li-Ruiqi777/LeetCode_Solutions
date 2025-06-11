@@ -35,42 +35,14 @@ struct TreeNode
 class Solution
 {
 public:
-    // 通过层序遍历实现
-    // TreeNode* invertTree(TreeNode* root) {
-    //     if(root==nullptr)
-    //     {
-    //         return nullptr;
-    //     }
-    //     std::queue<TreeNode*> que;
-    //     que.push(root);
-    //     while(!que.empty())
-    //     {
-    //         int sz = que.size();
-    //         for(int i=0;i<sz;++i)
-    //         {
-    //             auto node = que.front();
-    //             que.pop();
-    //             auto temp = node->left;
-    //             node->left = node->right;
-    //             node->right = temp;
-
-    //             if(node->left) que.push(node->left);
-    //             if(node->right) que.push(node->right);
-    //         }
-    //     }
-    //     return root;
-    // }
 
     // 通过递归遍历实现
     void traverse(TreeNode *cur)
     {
-        if (cur == nullptr)
+        if(!cur)
             return;
-
         auto temp = cur->left;
-        cur->left = cur->right;
-        cur->right = temp;
-
+        swap(cur->left, cur->right);
         traverse(cur->left);
         traverse(cur->right);
     }
