@@ -1,16 +1,9 @@
 /*
- * @lc app=leetcode.cn id=101 lang=cpp
+ * @lc app=leetcode.cn id=543 lang=cpp
  *
- * [101] 对称二叉树
- * 一刷:2024-10-27,用的层序遍历法写出来的,但代码随想录用的是递归或者迭代法
+ * [543] 二叉树的直径
  */
-
 #include <vector>
-#include <queue>
-#include <stack>
-#include <algorithm>
-using namespace std;
-
 struct TreeNode
 {
     int val;
@@ -36,21 +29,21 @@ struct TreeNode
 class Solution
 {
 public:
-    bool isSymmetric(TreeNode *root)
+    int diameterOfBinaryTree(TreeNode *root)
     {
-        return compare(root->left, root->right);
+        int max_depth = 0;
+        int cur_depth = get_max_depth(root, max_depth);
+        return max_depth;
     }
 
-    bool compare(TreeNode *left, TreeNode *right)
+    int get_max_depth(TreeNode *cur, int &max_diameter)
     {
-        if (!left && !right)
-            return true;
-        if (!left || !right)
-            return false;
-        bool flag1 = left->val == right->val;
-        bool flag2 = compare(left->left, right->right);
-        bool flag3 = compare(left->right, right->left);
-        return flag1 && flag2 && flag3;
+        if (!cur)
+            return 0;
+        int left_depth = get_max_depth(cur->left, max_diameter);
+        int right_depth = get_max_depth(cur->right, max_diameter);
+        max_diameter = std::max(left_depth + right_depth, max_diameter);
+        return 1 + std::max(left_depth, right_depth);
     }
 };
 // @lc code=end

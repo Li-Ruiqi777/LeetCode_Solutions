@@ -33,49 +33,28 @@ struct TreeNode
 class Solution
 {
 public:
-    // vector<vector<int>> levelOrder(TreeNode *root)
-    // {
-    //     std::vector<std::vector<int>> result;
-    //     if (root == nullptr)
-    //         return result;
-    //     std::queue<TreeNode *> que;
-    //     que.push(root);
-    //     while (!que.empty())
-    //     {
-    //         int sz = que.size();
-    //         std::vector<int> temp;
-    //         for (int i = 0; i < sz; ++i)
-    //         {
-    //             TreeNode *node = que.front();
-    //             que.pop();
-    //             temp.push_back(node->val);
-    //             if(node->left) que.push(node->left);
-    //             if(node->right) que.push(node->right);
-    //         }
-    //         result.push_back(temp);
-    //     }
-    //     return result;
-    // }
-    void order(TreeNode *cur, vector<vector<int>> &result, int depth)
-    {
-        if (cur == nullptr)
-            return;
-        if (depth == result.size())
-            result.push_back({});
-        result[depth].push_back(cur->val);
-        order(cur->left, result, depth + 1);
-        order(cur->right, result, depth + 1);
-    }
 
     vector<vector<int>> levelOrder(TreeNode *root)
     {
         std::vector<std::vector<int>> result;
         if (root == nullptr)
             return result;
-
-        int depth = 0;
-        this->order(root, result, depth);
-
+        std::queue<TreeNode *> que;
+        que.push(root);
+        while(!que.empty())
+        {
+            std::vector<int> temp;
+            int size = que.size();
+            for(int i =0;i<size;++i)
+            {
+                auto node = que.front();
+                que.pop();
+                temp.push_back(node->val);
+                if(node->left) que.push(node->left);
+                if(node->right) que.push(node->right);
+            }
+            result.push_back(temp);
+        }
         return result;
     }
 };
