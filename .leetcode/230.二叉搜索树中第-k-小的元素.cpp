@@ -1,15 +1,10 @@
 /*
- * @lc app=leetcode.cn id=98 lang=cpp
+ * @lc app=leetcode.cn id=230 lang=cpp
  *
- * [98] 验证二叉搜索树
- * 一刷:2024-11-5,看了题解感觉用中序遍历添加到数组还是比较简单的,递归法太绕了
- * 之前对于BST的定义有误解,左子树的所有元素都得小于根节点、右子树的所有元素都得大于根节点
+ * [230] 二叉搜索树中第 K 小的元素
  */
 
 #include <vector>
-#include <queue>
-#include <stack>
-#include <algorithm>
 using namespace std;
 struct TreeNode
 {
@@ -20,6 +15,7 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -35,21 +31,17 @@ struct TreeNode
 class Solution
 {
 public:
-    bool isValidBST(TreeNode *root)
+    int kthSmallest(TreeNode *root, int k)
     {
-        std::vector<int>nums;
+        std::vector<int> nums;
         traverse(root, nums);
-        for(int i=1; i<nums.size();++i)
-        {
-            if(nums[i-1]>=nums[i])
-                return false;
-        }  
-        return true;
+        return nums[k-1];
     }
 
-    void traverse(TreeNode *cur, std::vector<int>& nums)
+    
+    void traverse(TreeNode *cur, std::vector<int> &nums)
     {
-        if(!cur)
+        if (!cur)
             return;
         traverse(cur->left, nums);
         nums.push_back(cur->val);
